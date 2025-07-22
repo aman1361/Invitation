@@ -14,8 +14,65 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css'>
   <link href="https://fonts.googleapis.com/css?family=Charm|Open+Sans:400,700" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="images/favicon.ico" />
+  <style>
+    /* RSVP Modal Styles */
+    .rsvp-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .rsvp-content {
+      background-color: rgba(40,49,56,0.95);
+      margin: 5% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      position: relative;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+    
+    .number-input {
+      width: 60px;
+      text-align: center;
+    }
+    
+    .increment-btn, .decrement-btn {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    
+    .increment-btn:hover, .decrement-btn:hover {
+      background-color: #e0e0e0;
+    }
+    
+    #confirmation-modal {
+      text-align: center;
+    }
+    
+    #confirmation-message {
+      margin: 20px 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,7 +80,7 @@
   <div id="overlay" class="overlay">
     <div class="info">
       <div class="head">Birthday Invitation</div>
-      <img src="images/LoadingCake.png" alt="couple" width="100">
+      <img src="images/LoadingCake.png" alt="couple1" width="100">
       <p>Loading...</p>
     </div>
   </div>
@@ -102,6 +159,7 @@
         <button class="nextBtn">Next <img src="images/next.svg" alt="next" width="12"></button>
       </div>
     </div>
+    
     <div class="wrapper">
       <div class="clash-card barbarian">
         <button class="prevBtn"><img src="images/prev.svg" alt="Previous" width="12"> Prev</button>
@@ -117,8 +175,8 @@
           <div class="wrap-box">
             <div class="Hashs">
               Please RSVP here:<br />
-              <span onclick="copyToClipboard('DkKiShaadi')">Will Attend</span><br/>
-              <span onclick="copyToClipboard('VidhiKiShaadi')">Will Not Attend</span><br/>
+              <span onclick="showRSVPForm('attending')">Will Attend</span><br/>
+              <span onclick="showRSVPForm('notAttending')">Will Not Attend</span><br/>
               <br />
             </div>
           </div>
@@ -126,9 +184,279 @@
       </div>
     </div>
   </div>
+  
+<!-- RSVP Modal for Attending -->
+<div id="rsvp-attending-modal" class="rsvp-modal">
+<div class="rsvp-content"><span class="close-btn">&times;</span>
+<h2>RSVP - Will Attend</h2>
+<table>
+<tbody>
+<tr style="height: 30px;">
+<td style="height: 30px;">
+<div class="form-group"><label for="notAttending-name">Your Name:</label>&nbsp;</div>
+</td>
+<td style="height: 30px;">
+<div class="form-group"><input id="notAttending-name" required="" type="text" /></div>
+</td>
+</tr>
+<tr style="height: 30px;">
+<td style="height: 30px;"><label for="notAttending-contact">Email or Phone:</label></td>
+<td style="height: 30px;"><input id="notAttending-contact" required="" type="text" /></td>
+</tr>
+</tbody>
+</table>
+<form id="attending-form">
+<div class="form-group">&nbsp;</div>
+<div class="form-group">&nbsp;</div>
+<div class="form-group"><label>Number of Adults:</label>
+<div class="number-control"> <input id="attending-adults" class="number-input" max="10" min="0" type="number" value="1" /> 
+</div>
+<div class="form-group"><label>Number of Children:</label>
+<div class="number-control"><input id="attending-children" class="number-input" max="10" min="0" type="number" value="0" /> 
+  </div>
+<div class="number-control">&nbsp;</div>
+</div>
+<button class="submit-btn" type="submit">Submit RSVP</button></form></div>
+</div>
+<!-- RSVP Modal for Not Attending -->
+<div id="rsvp-notAttending-modal" class="rsvp-modal">
+<div class="rsvp-content"><span class="close-btn">&times;</span>
+<h2>RSVP - Will Not Attend</h2>
+<table>
+<tbody>
+<tr style="height: 30px;">
+<td style="height: 30px;">
+<div class="form-group"><label for="notAttending-name">Your Name:</label>&nbsp;</div>
+</td>
+<td style="height: 30px;">
+<div class="form-group"><input id="notAttending-name" required="" type="text" /></div>
+</td>
+</tr>
+<tr style="height: 30px;">
+<td style="height: 30px;"><label for="notAttending-contact">Email or Phone:</label></td>
+<td style="height: 30px;"><input id="notAttending-contact" required="" type="text" /></td>
+</tr>
+<tr style="height: 50px;">
+<td style="height: 40px;"><label for="notAttending-message">Message (optional):</label></td>
+<td style="height: 40px;">&nbsp;<textarea id="notAttending-message"></textarea></td>
+</tr>
+</tbody>
+</table>
+<form id="notAttending-form">
+<div class="form-group">&nbsp;</div>
+<button class="submit-btn" type="submit">Submit RSVP</button></form></div>
+</div>
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="rsvp-modal">
+<div class="rsvp-content">
+<h2>Thank You!</h2>
+<div id="confirmation-message">&nbsp;</div>
+<button class="submit-btn">Close</button></div>
+</div>
+  <!-- Admin Panel Button -->
+  <div id="admin-button" class="fixed bottom-4 right-4">
+    <button id="show-admin" class="bg-gray-700 hover:bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
+      👑
+    </button>
+  </div>
+  
+  <!-- Admin Panel Modal -->
+  <div id="admin-modal" class="rsvp-modal">
+    <div class="rsvp-content" style="max-width: 800px;">
+      <span class="close-btn" onclick="closeModal('admin-modal')">&times;</span>
+      <h2>RSVP Responses</h2>
+      <div id="admin-summary" class="summary-box"></div>
+      <div id="admin-responses" class="responses-container"></div>
+      <button id="export-data" class="submit-btn">Export to CSV</button>
+    </div>
+  </div>
+
   <div id="snackbar">Copied</div>
-  //<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
-  //<script src='https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js'></script>
   <script src="js/index.js"></script>
+  <script>
+    // RSVP Functions
+    function showRSVPForm(type) {
+      if (type === 'attending') {
+        document.getElementById('rsvp-attending-modal').style.display = 'block';
+      } else {
+        document.getElementById('rsvp-notAttending-modal').style.display = 'block';
+      }
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+    
+    function increment(inputId) {
+      const input = document.getElementById(inputId);
+      if (parseInt(input.value) < parseInt(input.max)) {
+        input.value = parseInt(input.value) + 1;
+      }
+    }
+    
+    function decrement(inputId) {
+      const input = document.getElementById(inputId);
+      if (parseInt(input.value) > parseInt(input.min)) {
+        input.value = parseInt(input.value) - 1;
+      }
+    }
+    
+    // Form Submissions
+    document.getElementById('attending-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const rsvpData = {
+        name: document.getElementById('attending-name').value,
+        contact: document.getElementById('attending-contact').value,
+        adults: document.getElementById('attending-adults').value,
+        children: document.getElementById('attending-children').value,
+        attending: true,
+        timestamp: new Date().toISOString()
+      };
+      
+      saveRSVP(rsvpData);
+      showConfirmation(rsvpData);
+    });
+    
+    document.getElementById('notAttending-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const rsvpData = {
+        name: document.getElementById('notAttending-name').value,
+        contact: document.getElementById('notAttending-contact').value,
+        message: document.getElementById('notAttending-message').value,
+        attending: false,
+        timestamp: new Date().toISOString()
+      };
+      
+      saveRSVP(rsvpData);
+      showConfirmation(rsvpData);
+    });
+    
+    function saveRSVP(data) {
+      let rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
+      rsvps.push(data);
+      localStorage.setItem('kianBirthdayRSVPs', JSON.stringify(rsvps));
+      updateAdminPanel();
+    }
+    
+    function showConfirmation(data) {
+      const modal = document.getElementById('confirmation-modal');
+      const message = document.getElementById('confirmation-message');
+      
+      if (data.attending) {
+        message.innerHTML = `
+          <p>Thank you for your RSVP, ${data.name}!</p>
+          <p>We look forward to seeing you and your party of ${parseInt(data.adults) + parseInt(data.children)} at Kian's birthday!</p>
+        `;
+      } else {
+        message.innerHTML = `
+          <p>Thank you for letting us know, ${data.name}.</p>
+          <p>We're sorry you can't make it but appreciate your response.</p>
+        `;
+      }
+      
+      document.getElementById('rsvp-attending-modal').style.display = 'none';
+      document.getElementById('rsvp-notAttending-modal').style.display = 'none';
+      modal.style.display = 'block';
+    }
+    
+    // Admin Panel Functions
+    document.getElementById('show-admin').addEventListener('click', function() {
+      updateAdminPanel();
+      document.getElementById('admin-modal').style.display = 'block';
+    });
+    
+    function updateAdminPanel() {
+      const rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
+      const summary = document.getElementById('admin-summary');
+      const responses = document.getElementById('admin-responses');
+      
+      if (rsvps.length === 0) {
+        summary.innerHTML = '<p>No RSVPs yet</p>';
+        responses.innerHTML = '';
+        return;
+      }
+      
+      // Calculate totals
+      let attendingCount = 0;
+      let adultCount = 0;
+      let childCount = 0;
+      
+      rsvps.forEach(rsvp => {
+        if (rsvp.attending) {
+          attendingCount++;
+          adultCount += parseInt(rsvp.adults);
+          childCount += parseInt(rsvp.children);
+        }
+      });
+      
+      // Update summary
+      summary.innerHTML = `
+        <div class="summary-item">
+          <h3>Total Responses:</h3>
+          <p>${rsvps.length}</p>
+        </div>
+        <div class="summary-item">
+          <h3>Attending:</h3>
+          <p>${attendingCount}</p>
+        </div>
+        <div class="summary-item">
+          <h3>Total Adults:</h3>
+          <p>${adultCount}</p>
+        </div>
+        <div class="summary-item">
+          <h3>Total Children:</h3>
+          <p>${childCount}</p>
+        </div>
+      `;
+      
+      // Update responses list
+      responses.innerHTML = '<h3>All Responses:</h3>';
+      rsvps.forEach(rsvp => {
+        const date = new Date(rsvp.timestamp).toLocaleString();
+        responses.innerHTML += `
+          <div class="response-item ${rsvp.attending ? 'attending' : 'not-attending'}">
+            <p><strong>${rsvp.name}</strong> - ${date}</p>
+            <p>${rsvp.contact}</p>
+            ${rsvp.attending ? 
+              `<p>Attending with ${rsvp.adults} adults and ${rsvp.children} children</p>` : 
+              `<p>Not attending${rsvp.message ? ': ' + rsvp.message : ''}</p>`}
+          </div>
+        `;
+      });
+    }
+    
+    // Export to CSV
+    document.getElementById('export-data').addEventListener('click', function() {
+      const rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
+      
+      if (rsvps.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      let csvContent = "Name,Contact,Attending,Adults,Children,Message,Timestamp\n";
+      
+      rsvps.forEach(rsvp => {
+        csvContent += `"${rsvp.name}","${rsvp.contact}",${rsvp.attending ? 'Yes' : 'No'},${rsvp.adults || '0'},${rsvp.children || '0'},"${rsvp.message || ''}","${rsvp.timestamp}"\n`;
+      });
+      
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'kian_birthday_rsvps.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+    
+    // Initialize admin panel
+    updateAdminPanel();
+  </script>
 </body>
 </html>
