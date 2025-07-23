@@ -1,33 +1,59 @@
 
 *, *:before, *:after { box-sizing: border-box;padding: 0;margin: 0;}
-body { background: linear-gradient(to bottom, #8c7a7a 0%, #af877c 65%, #af877c 100%) fixed; background: url("../images/background.jpg") no-repeat center center fixed; background-size: cover; font: 14px/20px; font-family: 'Charm', cursive; margin-top: 30px; color: #FBDE79;height: 100vh; overflow: hidden;} 
+
+body 
+{ 
+background: linear-gradient(to bottom, #8c7a7a 0%, #af877c 65%, #af877c 100%) fixed; 
+background: url("../images/background.jpg") no-repeat center center fixed; 
+background-size: cover; 
+font: 14px/20px; 
+font-family: 'Charm', cursive; 
+margin-top: 30px; 
+color: #FBDE79;
+height: 100vh; overflow: hidden;} 
 a,a:hover,a:visited{ color: #FBDE79; text-decoration: none; }
 *:focus { outline: none; }
 b{font-weight: 700;}
+
 canvas {display: block; position: absolute; /* touch-action: none;*/ top: 0;left: 0;}
-.overlay { position: fixed; width: 100%; height: 100%; background-color: rgba(40,49,56,0.95); z-index: 10000;top:0;}
-.info { text-align: center; position: absolute; top: 50%; left: 0; -webkit-transform: translateY(-50%); transform: translateY(-50%); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; font-size: 80%; width: 100%; } 
-.info { font-size: 20px; text-transform: none; font-family: 'Open Sans';font-weight: 300; }
-.info img { margin: 30px 0; }
-.info p { font-size: 14px; }
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(40, 49, 56, 0.95);
+  z-index: 10000;
+  top: 0;
+}
+
+.info {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for true center */
+  font-family: 'Open Sans';
+  font-weight: 300;
+  font-size: 20px;
+  width: 100%;
+  text-transform: none;
+}
+
+/* Ensures the image is centered inside .info */
+.info img {
+  display: block; /* Removes extra space below image */
+  margin: 30px auto; /* Centers horizontally & adds vertical spacing */
+  max-width: 100%; /* Prevents overflow */
+}
+
+.info p {
+  font-size: 14px;
+}
 .slide-container { margin: auto; width: 600px; text-align: center; max-width: 100%; } 
 .wrapper { padding-top: 40px; padding-bottom: 40px; } 
 .wrapper:focus { outline: 0; } 
 .clash-card { background: white; width: 300px; display: inline-block; margin: auto; border-radius: 19px; position: relative; text-align: center; box-shadow: -1px 15px 30px -12px black; z-index: 99; }
-
-.barbarian {
-  height: 500px;
-  background: rgb(54, 36, 47);
-  background: linear-gradient(
-    90deg,
-    rgba(4, 36, 47, 0.3) 0%,
-    rgba(2, 45, 61, 0.3) 46%,
-    rgba(4, 36, 47, 0.3) 100%
-  );
-  position: relative;
-  overflow: hidden;
-
-}.leaf { background-image: url(../images/leaf.png); background-size: contain; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; top: -20px; } 
+.barbarian { height: 500px; background: rgb(4, 36, 47); background: linear-gradient(90deg, rgba(4, 36, 47, 1) 0%, rgba(2, 45, 61, 1) 46%, rgba(4, 36, 47, 1) 100%); position: relative; overflow: hidden; } 
+.leaf { background-image: url(../images/leaf.png); background-size: contain; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; top: -20px; } 
 .letter-box { position: absolute; top: 30%; width: 100%; font-size: 20px; letter-spacing: 0.5px; }
 .invitee { margin-bottom: 25px; font-size: 14px; margin-top: 20px;}
 span.personName { font-size: 20px; }
