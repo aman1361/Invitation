@@ -196,36 +196,29 @@ Join us for a formal evening of joy, good company and dinner.</div>
   
   <!-- RSVP Modal for Not Attending -->
   <div id="rsvp-notAttending-modal" class="rsvp-modal">
-    <div class="rsvp-content">
-      <span class="close-btn" onclick="closeModal('rsvp-notAttending-modal')">&times;</span>
-      <h2>RSVP - Will Not Attend</h2>
-      <form id="notAttending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST"/>
-        <input type="hidden" name="_subject" value="Kian's Birthday RSVP - Not Attending">
-        <input type="hidden" name="_next" value="#confirmation-modal">
-        <input type="hidden" name="_captcha" value="false">
-        
-        <div class="form-group">
-          <label for="notAttending-name">Your Name:</label>
-          <input type="text" id="notAttending-name" name="name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="notAttending-contact">Email or Phone:</label>
-          <input type="text" id="notAttending-contact" name="contact" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="notAttending-message">Message (optional):</label>
-          <textarea id="notAttending-message" name="message"></textarea>
-        </div>
-        
-        <input type="hidden" name="attending" value="No">
-        <input type="hidden" name="adults" value="0">
-        <input type="hidden" name="children" value="0">
-        <button type="submit" class="submit-btn">Submit RSVP</button>
-      </form>
-    </div>
-  </div>
+<div class="rsvp-content"><span class="close-btn">×</span><form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST"><input name="_subject" type="hidden" value="Kian's Birthday RSVP - Not Attending" /> <input name="_captcha" type="hidden" value="false" />
+<table>
+<tbody>
+<tr>
+<td colspan="2">
+<h2 style="text-align: center;">RSVP - Will Not Attend</h2>
+</td>
+</tr>
+<tr>
+<td style="height: 30px;"><label for="attending-name">Your Name:</label></td>
+<td style="height: 30px;"> <input name="name" required="" type="text" /></td>
+</tr>
+<tr>
+<td style="height: 30px;"><label for="attending-contact">Email or Phone:</label></td>
+<td style="height: 30px;"> <input name="contact" required="" type="text" /></td>
+</tr>
+<tr>
+<td style="text-align: center; height: 30px;" colspan="2"><button class="submit-btn" type="submit">Submit RSVP</button></td>
+</tr>
+</tbody>
+</table>
+<input name="attending" type="hidden" value="Yes" /></form></div>
+</div>
   
   <!-- Confirmation Modal -->
   <div id="confirmation-modal" class="rsvp-modal">
