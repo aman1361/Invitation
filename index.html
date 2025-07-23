@@ -12,7 +12,7 @@
   <meta property="og:updated_time" content="1546232947" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css'>
+  <link rel='stylesheet' href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css">
   <link href="https://fonts.googleapis.com/css?family=Charm|Open+Sans:400,700" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css">
@@ -155,22 +155,26 @@ Join us for a formal evening of joy, good company and dinner.</div>
     <div class="rsvp-content">
       <span class="close-btn" onclick="closeModal('rsvp-attending-modal')">&times;</span>
       <h2>RSVP - Will Attend</h2>
-      <form id="attending-form">
+      <form id="attending-form" action="https://formsubmit.co/YOUR_EMAIL@example.com" method="POST">
+        <input type="hidden" name="_subject" value="Kian's Birthday RSVP - Attending">
+        <input type="hidden" name="_next" value="#confirmation-modal">
+        <input type="hidden" name="_captcha" value="false">
+        
         <div class="form-group">
           <label for="attending-name">Your Name:</label>
-          <input type="text" id="attending-name" required>
+          <input type="text" id="attending-name" name="name" required>
         </div>
         
         <div class="form-group">
           <label for="attending-contact">Email or Phone:</label>
-          <input type="text" id="attending-contact" required>
+          <input type="text" id="attending-contact" name="contact" required>
         </div>
         
         <div class="form-group">
           <label>Number of Adults:</label>
           <div class="number-control">
             <button type="button" class="decrement-btn" onclick="decrement('attending-adults')">-</button>
-            <input type="number" id="attending-adults" class="number-input" value="1" min="0" max="10">
+            <input type="number" id="attending-adults" class="number-input" name="adults" value="1" min="0" max="10">
             <button type="button" class="increment-btn" onclick="increment('attending-adults')">+</button>
           </div>
         </div>
@@ -179,11 +183,12 @@ Join us for a formal evening of joy, good company and dinner.</div>
           <label>Number of Children:</label>
           <div class="number-control">
             <button type="button" class="decrement-btn" onclick="decrement('attending-children')">-</button>
-            <input type="number" id="attending-children" class="number-input" value="0" min="0" max="10">
+            <input type="number" id="attending-children" class="number-input" name="children" value="0" min="0" max="10">
             <button type="button" class="increment-btn" onclick="increment('attending-children')">+</button>
           </div>
         </div>
         
+        <input type="hidden" name="attending" value="Yes">
         <button type="submit" class="submit-btn">Submit RSVP</button>
       </form>
     </div>
@@ -194,22 +199,29 @@ Join us for a formal evening of joy, good company and dinner.</div>
     <div class="rsvp-content">
       <span class="close-btn" onclick="closeModal('rsvp-notAttending-modal')">&times;</span>
       <h2>RSVP - Will Not Attend</h2>
-      <form id="notAttending-form">
+      <form id="notAttending-form" action="https://formsubmit.co/YOUR_EMAIL@example.com" method="POST">
+        <input type="hidden" name="_subject" value="Kian's Birthday RSVP - Not Attending">
+        <input type="hidden" name="_next" value="#confirmation-modal">
+        <input type="hidden" name="_captcha" value="false">
+        
         <div class="form-group">
           <label for="notAttending-name">Your Name:</label>
-          <input type="text" id="notAttending-name" required>
+          <input type="text" id="notAttending-name" name="name" required>
         </div>
         
         <div class="form-group">
           <label for="notAttending-contact">Email or Phone:</label>
-          <input type="text" id="notAttending-contact" required>
+          <input type="text" id="notAttending-contact" name="contact" required>
         </div>
         
         <div class="form-group">
           <label for="notAttending-message">Message (optional):</label>
-          <textarea id="notAttending-message"></textarea>
+          <textarea id="notAttending-message" name="message"></textarea>
         </div>
         
+        <input type="hidden" name="attending" value="No">
+        <input type="hidden" name="adults" value="0">
+        <input type="hidden" name="children" value="0">
         <button type="submit" class="submit-btn">Submit RSVP</button>
       </form>
     </div>
@@ -219,25 +231,11 @@ Join us for a formal evening of joy, good company and dinner.</div>
   <div id="confirmation-modal" class="rsvp-modal">
     <div class="rsvp-content">
       <h2>Thank You!</h2>
-      <div id="confirmation-message"></div>
+      <div id="confirmation-message">
+        <p>Thank you for your RSVP!</p>
+        <p>We've received your response.</p>
+      </div>
       <button onclick="closeModal('confirmation-modal')" class="submit-btn">Close</button>
-    </div>
-  </div>
-  <!-- Admin Panel Button -->
-  <div id="admin-button" class="fixed bottom-4 right-4">
-    <button id="show-admin" class="bg-gray-700 hover:bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
-      👑
-    </button>
-  </div>
-  
-  <!-- Admin Panel Modal -->
-  <div id="admin-modal" class="rsvp-modal">
-    <div class="rsvp-content" style="max-width: 800px;">
-      <span class="close-btn" onclick="closeModal('admin-modal')">&times;</span>
-      <h2>RSVP Responses</h2>
-      <div id="admin-summary" class="summary-box"></div>
-      <div id="admin-responses" class="responses-container"></div>
-      <button id="export-data" class="submit-btn">Export to CSV</button>
     </div>
   </div>
 
@@ -275,8 +273,7 @@ Join us for a formal evening of joy, good company and dinner.</div>
     
     // Form Submissions
     document.getElementById('attending-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
+      // Save to local storage
       const rsvpData = {
         name: document.getElementById('attending-name').value,
         contact: document.getElementById('attending-contact').value,
@@ -287,12 +284,11 @@ Join us for a formal evening of joy, good company and dinner.</div>
       };
       
       saveRSVP(rsvpData);
-      showConfirmation(rsvpData);
+      // FormSubmit will handle the email and redirect to #confirmation-modal
     });
     
     document.getElementById('notAttending-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
+      // Save to local storage
       const rsvpData = {
         name: document.getElementById('notAttending-name').value,
         contact: document.getElementById('notAttending-contact').value,
@@ -302,131 +298,14 @@ Join us for a formal evening of joy, good company and dinner.</div>
       };
       
       saveRSVP(rsvpData);
-      showConfirmation(rsvpData);
+      // FormSubmit will handle the email and redirect to #confirmation-modal
     });
     
     function saveRSVP(data) {
       let rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
       rsvps.push(data);
       localStorage.setItem('kianBirthdayRSVPs', JSON.stringify(rsvps));
-      updateAdminPanel();
     }
-    
-    function showConfirmation(data) {
-      const modal = document.getElementById('confirmation-modal');
-      const message = document.getElementById('confirmation-message');
-      
-      if (data.attending) {
-        message.innerHTML = `
-          <p>Thank you for your RSVP, ${data.name}!</p>
-          <p>We look forward to seeing you and your party of ${parseInt(data.adults) + parseInt(data.children)} at Kian's birthday!</p>
-        `;
-      } else {
-        message.innerHTML = `
-          <p>Thank you for letting us know, ${data.name}.</p>
-          <p>We're sorry you can't make it but appreciate your response.</p>
-        `;
-      }
-      
-      document.getElementById('rsvp-attending-modal').style.display = 'none';
-      document.getElementById('rsvp-notAttending-modal').style.display = 'none';
-      modal.style.display = 'block';
-    }
-    
-    // Admin Panel Functions
-    document.getElementById('show-admin').addEventListener('click', function() {
-      updateAdminPanel();
-      document.getElementById('admin-modal').style.display = 'block';
-    });
-    
-    function updateAdminPanel() {
-      const rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
-      const summary = document.getElementById('admin-summary');
-      const responses = document.getElementById('admin-responses');
-      
-      if (rsvps.length === 0) {
-        summary.innerHTML = '<p>No RSVPs yet</p>';
-        responses.innerHTML = '';
-        return;
-      }
-      
-      // Calculate totals
-      let attendingCount = 0;
-      let adultCount = 0;
-      let childCount = 0;
-      
-      rsvps.forEach(rsvp => {
-        if (rsvp.attending) {
-          attendingCount++;
-          adultCount += parseInt(rsvp.adults);
-          childCount += parseInt(rsvp.children);
-        }
-      });
-      
-      // Update summary
-      summary.innerHTML = `
-        <div class="summary-item">
-          <h3>Total Responses:</h3>
-          <p>${rsvps.length}</p>
-        </div>
-        <div class="summary-item">
-          <h3>Attending:</h3>
-          <p>${attendingCount}</p>
-        </div>
-        <div class="summary-item">
-          <h3>Total Adults:</h3>
-          <p>${adultCount}</p>
-        </div>
-        <div class="summary-item">
-          <h3>Total Children:</h3>
-          <p>${childCount}</p>
-        </div>
-      `;
-      
-      // Update responses list
-      responses.innerHTML = '<h3>All Responses:</h3>';
-      rsvps.forEach(rsvp => {
-        const date = new Date(rsvp.timestamp).toLocaleString();
-        responses.innerHTML += `
-          <div class="response-item ${rsvp.attending ? 'attending' : 'not-attending'}">
-            <p><strong>${rsvp.name}</strong> - ${date}</p>
-            <p>${rsvp.contact}</p>
-            ${rsvp.attending ? 
-              `<p>Attending with ${rsvp.adults} adults and ${rsvp.children} children</p>` : 
-              `<p>Not attending${rsvp.message ? ': ' + rsvp.message : ''}</p>`}
-          </div>
-        `;
-      });
-    }
-    
-    // Export to CSV
-    document.getElementById('export-data').addEventListener('click', function() {
-      const rsvps = JSON.parse(localStorage.getItem('kianBirthdayRSVPs') || '[]');
-      
-      if (rsvps.length === 0) {
-        alert('No data to export');
-        return;
-      }
-      
-      let csvContent = "Name,Contact,Attending,Adults,Children,Message,Timestamp\n";
-      
-      rsvps.forEach(rsvp => {
-        csvContent += `"${rsvp.name}","${rsvp.contact}",${rsvp.attending ? 'Yes' : 'No'},${rsvp.adults || '0'},${rsvp.children || '0'},"${rsvp.message || ''}","${rsvp.timestamp}"\n`;
-      });
-      
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'kian_birthday_rsvps.csv');
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-    
-    // Initialize admin panel
-    updateAdminPanel();
   </script>
 </body>
 </html>
