@@ -196,7 +196,11 @@ Join us for a formal evening of joy, good company and dinner.</div>
   
   <!-- RSVP Modal for Not Attending -->
   <div id="rsvp-notAttending-modal" class="rsvp-modal">
-<div class="rsvp-content"><span class="close-btn">×</span><form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST"><input name="_subject" type="hidden" value="Kian's Birthday RSVP - Not Attending" /> <input name="_captcha" type="hidden" value="false" />
+<div class="rsvp-content">
+      <span class="close-btn" onclick="closeModal('rsvp-notAttending-modal')">&times;</span>
+  <form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST">
+    <input name="_subject" type="hidden" value="Kian's Birthday RSVP - Not Attending" /> 
+    <input name="_captcha" type="hidden" value="false" />
 <table>
 <tbody>
 <tr>
@@ -217,7 +221,7 @@ Join us for a formal evening of joy, good company and dinner.</div>
 </tr>
 </tbody>
 </table>
-<input name="attending" type="hidden" value="Yes" /></form></div>
+<input name="attending" type="hidden" value="No" /></form></div>
 </div>
   
   <!-- Confirmation Modal -->
