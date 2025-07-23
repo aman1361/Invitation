@@ -151,14 +151,13 @@ Join us for a formal evening of joy, good company and dinner.</div>
   </div>
   
   <!-- RSVP Modal for Attending -->
-  <div class="wrapper">
-      <div class="clash-card barbarian">
-  <div id="rsvp-attending-modal" class="rsvp-modal">
+<div id="rsvp-attending-modal" class="rsvp-modal">
 <div class="rsvp-content">
 <span class="close-btn" onclick="closeModal('rsvp-attending-modal')">&times;</span>
 <form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST">
-  <input name="_subject" type="hidden" value="Kian's Birthday RSVP - Attending" /> 
-  <input name="_captcha" type="hidden" value="false" />
+<input name="_subject" type="hidden" value="Kian's Birthday RSVP - Attending" /> 
+<input type="hidden" name="_next" value="#confirmation-modal">
+<input name="_captcha" type="hidden" value="false" />
 <table>
 <tbody>
 <tr>
@@ -191,16 +190,15 @@ Join us for a formal evening of joy, good company and dinner.</div>
 </table>
 <input name="attending" type="hidden" value="Yes" /></form></div>
 </div>
-         </div>
-  </div>
   
   <!-- RSVP Modal for Not Attending -->
-  <div id="rsvp-notAttending-modal" class="rsvp-modal">
+<div id="rsvp-notAttending-modal" class="rsvp-modal">
 <div class="rsvp-content">
-      <span class="close-btn" onclick="closeModal('rsvp-notAttending-modal')">&times;</span>
-  <form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST">
-    <input name="_subject" type="hidden" value="Kian's Birthday RSVP - Not Attending" /> 
-    <input name="_captcha" type="hidden" value="false" />
+<span class="close-btn" onclick="closeModal('rsvp-notAttending-modal')">&times;</span>
+<form id="attending-form" action="https://formsubmit.co/aman.rezaei@gmail.com" method="POST">
+<input name="_subject" type="hidden" value="Kian's Birthday RSVP - Not Attending" /> 
+<input type="hidden" name="_next" value="#confirmation-modal">
+<input name="_captcha" type="hidden" value="false" />
 <table>
 <tbody>
 <tr>
