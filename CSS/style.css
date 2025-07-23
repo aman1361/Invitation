@@ -16,7 +16,7 @@ canvas {display: block; position: absolute; /* touch-action: none;*/ top: 0;left
 .clash-card { background: white; width: 300px; display: inline-block; margin: auto; border-radius: 19px; position: relative; text-align: center; box-shadow: -1px 15px 30px -12px black; z-index: 99; }
 
 .barbarian {
-  height: 550px;
+  height: 500px;
   background: rgb(54, 36, 47);
   background: linear-gradient(
     90deg,
